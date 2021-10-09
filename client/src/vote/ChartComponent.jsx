@@ -1,10 +1,12 @@
 import React from 'react';
 import {Axis, Chart, Coordinate, Interval, Tooltip} from "bizcharts";
 import DataSet from "@antv/data-set";
+import {useVote} from "../context/VoteContext";
 
 const {DataView} = DataSet;
 
-function ChartComponent(props) {
+function ChartComponent() {
+    const {votes} = useVote();
 
     const getDataView = (data) => {
         let dataView = new DataView();
@@ -26,7 +28,7 @@ function ChartComponent(props) {
     return (
         <div className="column">
             <Chart scale={scale} height={300} width={500}
-                   data={getDataView(Object.keys(props.votes).map(key => ({name: key, count: props.votes[key]})))}>
+                   data={getDataView(Object.keys(votes).map(key => ({name: key, count: votes[key]})))}>
                 <Coordinate type="theta" radius={0.75}/>
                 <Tooltip showTitle={false}/>
                 <Axis visible={false}/>

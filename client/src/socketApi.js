@@ -2,7 +2,7 @@ import { io } from 'socket.io-client';
 
 let socket;
 export const connectSocket = () => {
-    console.log('Connectting');
+    console.log('Connecting');
     socket = io(process.env.REACT_APP_BACKEND_ENDPOINT, { transports: ['websocket'] });
 
     socket.on('connect', () => {

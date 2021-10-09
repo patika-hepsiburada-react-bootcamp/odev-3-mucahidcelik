@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
+import {sendMessage} from "../socketApi";
+import {useVote} from "../context/VoteContext";
 
 const inputRef = React.createRef();
 
-function VoteComponent(props) {
+function VoteComponent() {
+    const {votes} = useVote();
     const [value, setValue] = useState("");
     const vote = (language) => {
         if (!language) {
@@ -11,24 +14,16 @@ function VoteComponent(props) {
             language = value;
             setValue("");
         }
-        props.setVotes(prevVotes => {
-            if (prevVotes[language]) {
-                let votes = {...prevVotes};
-                votes[language] += 1;
-                return votes;
-            } else {
-                return {...prevVotes, [language]: 1};
-            }
-        });
+        sendMessage('new-vote', language);
     };
 
     return (
         <div className="column">
             {
-                Object.keys(props.votes)?.length > 0 && Object.keys(props.votes).map(key => {
+                Object.keys(votes)?.length > 0 && Object.keys(votes).map(key => {
                     return <li style={{listStyle: "none"}}>
                         <button style={{minWidth: 50}} onClick={() => vote(key)}>{key}</button>
-                        <label> {props.votes[key]}</label>
+                        <label> {votes[key]}</label>
                     </li>
                 })
             }

@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
-const { Server } = require('socket.io');
+const {Server} = require('socket.io');
 const io = new Server(server);
 
 app.get('/', (req, res) => {
@@ -10,10 +10,6 @@ app.get('/', (req, res) => {
 });
 
 const votes = {
-    javascript: 0,
-    go: 0,
-    php: 0,
-    c: 0,
 };
 
 io.on('connection', (socket) => {
@@ -23,7 +19,11 @@ io.on('connection', (socket) => {
 
     socket.on('new-vote', (vote) => {
         console.log('New Vote:', vote);
-        votes[vote] += 1;
+        if (votes[vote]) {
+            votes[vote] += 1;
+        } else {
+            votes[vote] = 1;
+        }
         io.emit('new-vote', votes);
     });
 
