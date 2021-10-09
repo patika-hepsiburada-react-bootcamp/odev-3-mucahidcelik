@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import ChartComponent from "./vote/ChartComponent";
 import VoteComponent from "./vote/VoteComponent";
 import {useVote} from "./context/VoteContext";
